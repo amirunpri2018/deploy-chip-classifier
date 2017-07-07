@@ -73,15 +73,14 @@ class DeployClassifier(GbdxTaskInterface):
         self.chip_dir = self.get_input_data_port('chips')
         self.model_dir = self.get_input_data_port('model')
 
-        # Unzip chips if tar'ed
-        if len([f for f in os.listdir(self.chip_dir) if f.endswith('.tar')]) > 0:
-            print 'Unzipping chips'
-            logging.debug('Unzipping chips')
-            archive = [f for f in os.listdir(self.chip_dir) if f.endswith('.tar')][0]
-            command = 'tar xvf ' + join(self.chip_dir, archive) + ' -C ' + self.chip_dir
-            proc = subprocess.Popen([command], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            out, err = proc.communicate()
-            self.chip_dir = join(self.chip_dir, archive[:-4])    # update chip directory
+        # Unzip chips
+        print 'Unzipping chips'
+        logging.debug('Unzipping chips')
+        archive = [f for f in os.listdir(self.chip_dir) if f.endswith('.tar')][0]
+        command = 'tar xvf ' + join(self.chip_dir, archive) + ' -C ' + self.chip_dir
+        proc = subprocess.Popen([command], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = proc.communicate()
+        self.chip_dir = join(self.chip_dir, archive[:-4])    # update chip directory
 
         # Get files in input directories
         self.chips = [img for img in os.listdir(self.chip_dir) if
