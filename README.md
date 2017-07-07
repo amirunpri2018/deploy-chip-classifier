@@ -91,6 +91,10 @@ The Keras classifier expects height and width of each chip to be equal. Therefor
 
 The deploy-chip-classifier task assumes that the model was trained using a Tensorflow backend. If you wish to deploy a model trained with a Theano backend, simply use the task name ```deploy-chip-classifier-theano``` with otherwise the same configuration.
 
+### Data preprocessing
+
+This task preprocesses the data before deploying. It reformats all chips from RGB to BGR, and subtracts the mean intensity (as specified by the normalization_vector input) from each band. The model should be trained using the same preprocessing technique. Note that many publicly available models (including resnet50 and VGG Net) are trained this way.
+
 ### Tar format
 
 The chips input directory should contain one tar file of all the chips. To create this from within a directory of chips simply use the following command:  ```tar -cvf chips.tar .```
