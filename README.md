@@ -1,13 +1,13 @@
 # deploy-chip-classifier
 
-A GBDX task for deploying a trained Keras classifier on a set of target image chips. The task returns a json file 'classified.json' containing the input chip names, each with a classification result and confidence score. Note that if the model was trained using a theano backend you the deploy-chip-classifier-theano task name should be used.
+A GBDX task to deploy a trained [Keras](https://keras.io/) classifier on a set of target image chips. The task returns a json file 'classified.json' containing the input chip names, each with a classification result and confidence score. Note that if the model was trained using a Theano [backend](https://keras.io/backend/) the deploy-chip-classifier-theano task name should be used.
 
 
 ## Run
 
 Here we run though a sample execution of the deploy-chip-classifier task. We will be deploying a model that classifies chips in Africa as 'No Buildings' or 'Buildings'. All of the input data is available in the S3 locations specified below.
 
-1. Within an iPython terminal create a GBDX interface an specify the task input location:
+1. Within an iPython terminal create a GBDX interface and specify the task input location:
 
     ```python
     from gbdxtools import Interface
@@ -73,31 +73,41 @@ The following table lists the input ports of deploy-chip-classifier. Note that b
 
 ## Output Ports
 
-deploy-chip-classifier has one output as detailed below.
+deploy-chip-classifier has two outputs as detailed below.
 
 | Name  | Type | Description:                                      |
 |-------|------|---------------------------------------------------|
-| results | Directory | Contains classified.json, which has chip names as a keys and results as values. Results include class_name and certainty in the classification. |
+| results | Directory | Contains classified.json, which has chip names as a keys and results as values. Results include identified class name and certainty in the classification. |
 | logs | Directory | Contains out.log. out.log includes information on the time required to load the model and the total classification time. |
 
+
+## Advanced
+
+### Chip size
+
+The Keras classifier expects height and width of each chip to be equal. Therefore, if an input size is specified, all channels of each chip will be warped to that dimension. Note that if target chips are not the same shape as the input layer of the model the size must be specified.
+
+### Tar format
+
+The chips input directory should contain one tar file of all the chips. To create this from within a directory of chips simply use the following command:  ```tar -cvf chips.tar .```
 
 ## Development
 
 ### Build the Docker Image
 
-You need to install [Docker](https://docs.docker.com/engine/installation/)
+You need to install [Docker](https://docs.docker.com/engine/installation/) and [NVIDIA Docker](https://github.com/NVIDIA/nvidia-docker), and run the task on a GPU.
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/platformstories/train-chip-classifier-tf
+git clone https://github.com/platformstories/train-chip-classifier
 ```
 
 Then:
 
 ```bash
 cd deploy-chip-classifier
-docker build -t deploy-chip-classifier
+docker build -t deploy-chip-classifier .
 ```
 
 ### Try out locally
@@ -105,7 +115,7 @@ docker build -t deploy-chip-classifier
 Create a container in interactive mode and mount the sample input under `/mnt/work/input/`:
 
 ```bash
-docker run -v full/path/to/sample-input:/mnt/work/input -it deploy-chip-classifier
+docker run `curl -s http://localhost:3476/v1.0/docker/cli` -v full/path/to/sample-input:/mnt/work/input -it deploy-chip-classifier
 ```
 
 Then, within the container:
