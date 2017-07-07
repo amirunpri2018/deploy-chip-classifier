@@ -48,7 +48,7 @@
         {
             "name": "results",
             "type": "directory",
-            "description": "Contains classified.json, which has chip names as a keys and results as values. Results include class_name and certainty in the classification."
+            "description": "Contains classified.json, which has chip names as a keys and results as values. Results include identified class name and certainty in the classification."
         },
         {
             "name": "logs",
