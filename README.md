@@ -97,7 +97,7 @@ This task preprocesses the data before deploying. It reformats all chips from RG
 
 ### Tar format
 
-The chips input directory should contain one tar file of all the chips. To create this from within a directory of chips simply use the following command:  ```tar -cvf chips.tar .```
+The chips input directory should contain one tar file of all the chips. To create this from a directory of chips simply use the following command:  ```tar -cvf <directory_name>.tar <directory_name>```. Note that the name of the tar file must match the name of the directory for this task.
 
 ## Development
 
