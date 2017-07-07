@@ -1,6 +1,6 @@
 # deploy-chip-classifier
 
-A GBDX task to deploy a trained [Keras](https://keras.io/) classifier on a set of target image chips. The task returns a json file 'classified.json' containing the input chip names, each with a classification result and confidence score. Note that if the model was trained using a Theano [backend](https://keras.io/backend/) the deploy-chip-classifier-theano task name should be used.
+A GBDX task to deploy a trained [Keras](https://keras.io/) classifier on a set of target image chips. The task returns a json file 'classified.json', which contains the input chip names, each with a classification result and confidence score. Note that if the model was trained using a Theano [backend](https://keras.io/backend/) the deploy-chip-classifier-theano task name should be used.
 
 
 ## Run
@@ -86,6 +86,10 @@ deploy-chip-classifier has two outputs as detailed below.
 ### Chip size
 
 The Keras classifier expects height and width of each chip to be equal. Therefore, if an input size is specified, all channels of each chip will be warped to that dimension. Note that if target chips are not the same shape as the input layer of the model the size must be specified.
+
+### Backend
+
+The deploy-chip-classifier task assumes that the model was trained using a Tensorflow backend. If you wish to deploy a model trained with a Theano backend, simply use the task name ```deploy-chip-classifier-theano``` with otherwise the same configuration.
 
 ### Tar format
 
