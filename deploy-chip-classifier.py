@@ -68,6 +68,7 @@ class DeployClassifier(GbdxTaskInterface):
         self.size = int(self.get_input_string_port('size', default='224'))
         self.deploy_batch = int(self.get_input_string_port('deploy_batch', default='100'))
         self.normalization_vector = map(float, self.get_input_string_port('normalization_vector', default='123.68,116.779,103.939').split(','))
+        self.normalization_value = ast.literal_eval(self.get_input_string_port('normalization_value', default = 'None'))
 
         # Get input directories
         self.chip_dir = self.get_input_data_port('chips')
@@ -118,6 +119,8 @@ class DeployClassifier(GbdxTaskInterface):
             # Resize and preprocess
             chips = resnet_preproc_keras(np.array([resize_image(chip_name, self.size, self.size) for chip_name in this_batch],
                                          dtype='float32'), self.normalization_vector)
+            if self.normalization_value:
+                chips /= float(self.normalization_value)
 
             print 'Classifying batch {} of {}'.format(no+1, no_batches)
             t1 = time.time()

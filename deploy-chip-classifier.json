@@ -1,6 +1,6 @@
 {
     "name": "deploy-chip-classifier",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Deploy a tensorflow keras model to classify RGB image chips.",
     "properties": {
         "isPublic": true,
@@ -41,6 +41,12 @@
             "name": "normalization_vector",
             "type": "string",
             "description": "Pixel intensity values to subtract from R, G, B bands. The default is '123.68,116.779,103.939'.",
+            "required": false
+        },
+        {
+            "name": "normalization_value",
+            "type": "string",
+            "description": "Pixel intensity values to divide chips by. Division will take place after subtracting the normalization_vector. Defaults to None.",
             "required": false
         }
     ],
