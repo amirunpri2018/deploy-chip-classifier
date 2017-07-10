@@ -69,6 +69,7 @@ The following table lists the input ports of deploy-chip-classifier. Note that b
 | size | String | Chip size in pixels. If a chip has a different size, it is automatically resized to (size)x(size). Default is 224. | False |
 | deploy_batch | String | Size of deploy batch. Default is 100. | False |
 | normalization_vector | String | Pixel intensity values to subtract from R, G, B bands. The default is '123.68,116.779,103.939'. | False |
+| normalization_value | String | Pixel intensity values to divide chips by. Division will take place after subtracting the normalization_vector. Defaults to None. | False |
 
 
 ## Output Ports
